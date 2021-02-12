@@ -9,3 +9,9 @@ services:
     build: p
     volumes: 
       - ./p:/app:delegated
+  dut:
+    build: dut
+    volumes: 
+      - ./dut:/app:delegated
+    ports:
+      - 5000:5000

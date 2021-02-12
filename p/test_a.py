@@ -8,17 +8,19 @@ def test_request_to_mock_server(mock_server):
     # Set up mock server with required behavior
     imposter = Imposter(
             Stub(
-                Predicate(path="/test"), 
-                Response(body="sausages")
+                Predicate(path="/login_data"), 
+                Response(body={'authz':True})
             ),
             record_requests=True,
             port=8080)
 
     with mock_server(imposter) as ms:
-        # Make request to mock server - exercise code under test here
-        response = requests.get(f"{imposter.url}/test")
-        print(ms.get_actual_requests())
-        assert_that(response, is_response().with_status_code(200).and_body("sausages"))
-        assert_that(imposter, had_request().with_path("/test").and_method("GET"))
+        # Call our service
+        #response = requests.get(f"{imposter.url}/test")
+        response = requests.get("http://dut:5000/login")
+        #print(response.json())
+        assert response.json() == {'authz':True}
+        #assert_that(response, is_response().with_status_code(200))
+        #assert_that(imposter, had_request().with_path("/login_data").and_method("GET"))
 
         
