@@ -1,0 +1,11 @@
+version: '3'
+services:
+  m:
+    image: andyrbell/mountebank
+    ports:
+      - 2525:2525
+      - 8080:8080
+  p:
+    build: p
+    volumes: 
+      - ./p:/app:delegated
